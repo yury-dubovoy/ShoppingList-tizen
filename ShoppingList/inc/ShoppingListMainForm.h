@@ -1,0 +1,28 @@
+#ifndef _SHOPPING_LIST_MAIN_FORM_H_
+#define _SHOPPING_LIST_MAIN_FORM_H_
+
+#include "tizenx.h"
+
+class ShoppingListMainForm
+	: public Tizen::Ui::Controls::Form
+	, public Tizen::Ui::IActionEventListener
+	, public Tizen::Ui::Controls::IFormBackEventListener
+{
+public:
+	ShoppingListMainForm(void);
+	virtual ~ShoppingListMainForm(void);
+	bool Initialize(void);
+
+private:
+	virtual result OnInitializing(void);
+	virtual result OnTerminating(void);
+	virtual void OnFormBackRequested(Tizen::Ui::Controls::Form& source);
+	virtual void OnActionPerformed(const Tizen::Ui::Control& source, int actionId);
+
+protected:
+	static const int ID_HEADER_ITEM1 = 101;
+	static const int ID_HEADER_ITEM2 = 102;
+	static const int ID_HEADER_ITEM3 = 103;
+};
+
+#endif	//_SHOPPING_LIST_MAIN_FORM_H_
