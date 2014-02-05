@@ -56,6 +56,7 @@ void
 ShoppingListMainForm::OnActionPerformed(const Tizen::Ui::Control& source, int actionId)
 {
 	SceneManager* pSceneManager = SceneManager::GetInstance();
+	
 	AppAssert(pSceneManager);
 
 	switch(actionId)
@@ -65,9 +66,6 @@ ShoppingListMainForm::OnActionPerformed(const Tizen::Ui::Control& source, int ac
 		break;
 	case ID_HEADER_ITEM2:
 		pSceneManager->GoForward(SceneTransitionId(IDSCNT_2));
-		break;
-	case ID_HEADER_ITEM3:
-		pSceneManager->GoForward(SceneTransitionId(IDSCNT_3));
 		break;
 	default:
 		break;
@@ -80,4 +78,20 @@ ShoppingListMainForm::OnFormBackRequested(Tizen::Ui::Controls::Form& source)
 	UiApp* pApp = UiApp::GetInstance();
 	AppAssert(pApp);
 	pApp->Terminate();
+}
+
+void
+ShoppingListMainForm::OnSceneActivatedN(const Tizen::Ui::Scenes::SceneId& previousSceneId,
+								const Tizen::Ui::Scenes::SceneId& currentSceneId, Tizen::Base::Collection::IList* pArgs)
+{
+	// TODO: Add your implementation codes here
+
+}
+
+void
+ShoppingListMainForm::OnSceneDeactivated(const Tizen::Ui::Scenes::SceneId& currentSceneId,
+								const Tizen::Ui::Scenes::SceneId& nextSceneId)
+{
+	// TODO: Add your implementation codes here
+
 }

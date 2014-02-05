@@ -2,16 +2,12 @@
 <Workflow>
     <Scene Form="IDL_FORM" Id="TabScene1" Panel="IDL_PANEL1"/>
     <Scene Form="IDL_FORM" Id="TabScene2" Panel="IDL_PANEL2"/>
-    <Scene Form="IDL_FORM" Id="TabScene3" Panel="IDL_PANEL3"/>
     <SceneTransition AnimationType="none" DestroyOption="keep" DirectionType="forward" HistoryOption="no" Id="IDSCNT_START" Method="" SourceId="" SourceResourceType="" TargetId="TabScene1"/>
-    <SceneTransition AnimationType="none" DestroyOption="keep" DirectionType="forward" HistoryOption="no" Id="IDSCNT_3" Method="OnActionPerformed" SourceId="TabScene1" SourceResourceType="IDL_FORM" TargetId="TabScene3"/>
+    <SceneTransition AnimationType="none" DestroyOption="keep" DirectionType="forward" HistoryOption="no" Id="IDSCNT_2" Method="OnActionPerformed" SourceId="TabScene1" SourceResourceType="IDL_FORM" TargetId="TabScene2"/>
     <SceneTransition AnimationType="none" DestroyOption="keep" DirectionType="forward" HistoryOption="no" Id="IDSCNT_1" Method="OnActionPerformed" SourceId="TabScene2" SourceResourceType="IDL_FORM" TargetId="TabScene1"/>
-    <SceneTransition AnimationType="none" DestroyOption="keep" DirectionType="forward" HistoryOption="no" Id="IDSCNT_2" Method="OnActionPerformed" SourceId="TabScene3" SourceResourceType="IDL_FORM" TargetId="TabScene2"/>
     <!--UI Builder(Workflow Designer) only-->
     <WorkflowDesigner>
-        <Position Name="TabScene1" X="209" Y="98"/>
-        <Position Name="TabScene2" X="408" Y="378"/>
-        <Position Name="TabScene3" X="10" Y="380"/>
+        <Position Name="TabScene1" X="60" Y="105"/>
+        <Position Name="TabScene2" X="244" Y="300"/>
     </WorkflowDesigner>
 </Workflow>
-

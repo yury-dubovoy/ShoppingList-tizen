@@ -2,7 +2,6 @@
 #include "ShoppingListPanelFactory.h"
 #include "ShoppingListTab1.h"
 #include "ShoppingListTab2.h"
-#include "ShoppingListTab3.h"
 #include "AppResourceId.h"
 
 using namespace Tizen::Ui::Scenes;
@@ -34,14 +33,6 @@ ShoppingListPanelFactory::CreatePanelN(const Tizen::Base::String& panelId, const
 	if (panelId == IDL_PANEL2)
 	{
 		ShoppingListTab2* pPanel = new (std::nothrow) ShoppingListTab2();
-		pPanel->Initialize();
-		pSceneManager->AddSceneEventListener(sceneId, *pPanel);
-		pNewPanel = pPanel;
-	}
-	else
-	if (panelId == IDL_PANEL3)
-	{
-		ShoppingListTab3* pPanel = new (std::nothrow) ShoppingListTab3();
 		pPanel->Initialize();
 		pSceneManager->AddSceneEventListener(sceneId, *pPanel);
 		pNewPanel = pPanel;
