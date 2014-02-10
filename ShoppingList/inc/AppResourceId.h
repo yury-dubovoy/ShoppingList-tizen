@@ -1,6 +1,7 @@
 #ifndef _APP_RESOURCE_ID_H_
 #define _APP_RESOURCE_ID_H_
 
+extern const wchar_t* IDC_LISTVIEW1;
 extern const wchar_t* IDL_FORM;
 extern const wchar_t* IDL_PANEL1;
 extern const wchar_t* IDL_PANEL2;

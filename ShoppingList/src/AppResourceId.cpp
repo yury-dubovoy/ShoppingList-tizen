@@ -1,5 +1,6 @@
 #include "AppResourceId.h"
 
+const wchar_t* IDC_LISTVIEW1 = L"IDC_LISTVIEW1";
 const wchar_t* IDL_FORM = L"IDL_FORM";
 const wchar_t* IDC_LABEL1 = L"IDC_LABEL1";
 const wchar_t* IDL_PANEL1 = L"IDL_PANEL1";
