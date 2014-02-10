@@ -53,6 +53,12 @@ ShoppingListTab1::OnInitializing(void)
 		}
 	}
 
+	ListView* pListview1 = static_cast<ListView*>(GetControl(IDC_LISTVIEW1));  
+	if(pListview1)
+	{
+		pListview1->AddListViewItemEventListener(*this);
+		pListview1->SetItemProvider(*this);
+	}
 	return r;
 }
 
@@ -79,5 +85,60 @@ ShoppingListTab1::OnSceneDeactivated(const Tizen::Ui::Scenes::SceneId& currentSc
 								const Tizen::Ui::Scenes::SceneId& nextSceneId)
 {
 	// TODO: Deactivate your scene here.
+
+}
+
+void
+ShoppingListTab1::OnListViewContextItemStateChanged(Tizen::Ui::Controls::ListView& listView, int index, int elementId, Tizen::Ui::Controls::ListContextItemStatus status)
+{
+	// TODO: Add your implementation codes here
+
+}
+
+void
+ShoppingListTab1::OnListViewItemLongPressed(Tizen::Ui::Controls::ListView& listView, int index, int elementId, bool& invokeListViewItemCallback)
+{
+	// TODO: Add your implementation codes here
+
+}
+
+void
+ShoppingListTab1::OnListViewItemStateChanged(Tizen::Ui::Controls::ListView& listView, int index, int elementId, Tizen::Ui::Controls::ListItemStatus status)
+{
+	// TODO: Add your implementation codes here
+
+}
+
+void
+ShoppingListTab1::OnListViewItemSwept(Tizen::Ui::Controls::ListView& listView, int index, Tizen::Ui::Controls::SweepDirection direction)
+{
+	// TODO: Add your implementation codes here
+
+}
+
+Tizen::Ui::Controls::ListItemBase *
+ShoppingListTab1::CreateItem(int index, int itemWidth)
+{
+	// TODO: Add your implementation codes here
+
+	return null;
+
+}
+
+bool
+ShoppingListTab1::DeleteItem(int index, Tizen::Ui::Controls::ListItemBase *pItem, int itemWidth)
+{
+	// TODO: Add your implementation codes here
+
+	return true;
+
+}
+
+int
+ShoppingListTab1::GetItemCount(void)
+{
+	// TODO: Add your implementation codes here
+
+	return 0;
 
 }
