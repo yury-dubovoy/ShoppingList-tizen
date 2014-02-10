@@ -9,9 +9,11 @@ using namespace Tizen::Ui::Scenes;
 
 static const int INDENT = 20;
 
+static const int ID_CNTX_BTN_DELETE = 200;
+
 ShoppingListTab1::ShoppingListTab1(void)
 {
-
+	pItemContext = null;
 }
 
 ShoppingListTab1::~ShoppingListTab1(void)
@@ -35,6 +37,10 @@ result
 ShoppingListTab1::OnInitializing(void)
 {
 	result r = E_SUCCESS;
+
+	pItemContext = new (std::nothrow) ListContextItem();
+	pItemContext->Construct();
+	pItemContext->AddElement(ID_CNTX_BTN_DELETE, "Delete");
 
 	// Layout setting
 	const Form* pForm = dynamic_cast< Form* >(GetParent());
@@ -145,6 +151,9 @@ ShoppingListTab1::CreateItem(int index, int itemWidth)
 	CustomItem* pItem = new CustomItem();
 	pItem->Construct(Dimension(GetWidth(), textHeight + INDENT*2), LIST_ANNEX_STYLE_NORMAL);
 	pItem->AddElement(Rectangle(INDENT, INDENT, textWidth, textHeight), 0, enrichedText);
+
+	AppAssert(pItemContext);
+	pItem->SetContextItem(pItemContext);
 
 	return pItem;
 

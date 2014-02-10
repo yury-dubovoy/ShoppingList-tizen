@@ -29,6 +29,12 @@ public:
 	virtual Tizen::Ui::Controls::ListItemBase * 	CreateItem(int index, int itemWidth);
 	virtual bool 	DeleteItem(int index, Tizen::Ui::Controls::ListItemBase *pItem, int itemWidth);
 	virtual int 	GetItemCount(void);
+
+private:
+
+	Tizen::Ui::Controls::ListContextItem* 	pItemContext;
+
+
 };
 
 #endif // _SHOPPING_LIST_TAB1_H_
