@@ -1,10 +1,13 @@
 #include "ShoppingListTab1.h"
 #include "AppResourceId.h"
 
+using namespace Tizen::Base;
 using namespace Tizen::Graphics;
 using namespace Tizen::Ui;
 using namespace Tizen::Ui::Controls;
 using namespace Tizen::Ui::Scenes;
+
+static const int INDENT = 20;
 
 ShoppingListTab1::ShoppingListTab1(void)
 {
@@ -119,26 +122,44 @@ ShoppingListTab1::OnListViewItemSwept(Tizen::Ui::Controls::ListView& listView, i
 Tizen::Ui::Controls::ListItemBase *
 ShoppingListTab1::CreateItem(int index, int itemWidth)
 {
-	// TODO: Add your implementation codes here
+	String strName = "Hello";
 
-	return null;
+	int textWidth = GetWidth() - INDENT*2;
+
+	EnrichedText enrichedText;
+	enrichedText.Construct(FloatDimension(textWidth, 112));
+	enrichedText.SetVerticalAlignment(TEXT_ALIGNMENT_MIDDLE);
+	enrichedText.SetHorizontalAlignment(TEXT_ALIGNMENT_LEFT);
+	enrichedText.SetTextWrapStyle(TEXT_WRAP_WORD_WRAP);
+
+	Font pFont;
+	pFont.Construct(FONT_STYLE_BOLD, 44.0f);
+
+	TextElement* pTextElement = new (std::nothrow) TextElement();
+	pTextElement->Construct(strName + "\n");
+	pTextElement->SetFont(pFont);
+	enrichedText.Add(*pTextElement);
+
+	int textHeight = enrichedText.GetTotalLineHeight();
+
+	CustomItem* pItem = new CustomItem();
+	pItem->Construct(Dimension(GetWidth(), textHeight + INDENT*2), LIST_ANNEX_STYLE_NORMAL);
+	pItem->AddElement(Rectangle(INDENT, INDENT, textWidth, textHeight), 0, enrichedText);
+
+	return pItem;
 
 }
 
 bool
 ShoppingListTab1::DeleteItem(int index, Tizen::Ui::Controls::ListItemBase *pItem, int itemWidth)
 {
-	// TODO: Add your implementation codes here
-
-	return true;
-
+    delete pItem;
+    pItem = null;
+    return true;
 }
 
 int
 ShoppingListTab1::GetItemCount(void)
 {
-	// TODO: Add your implementation codes here
-
-	return 0;
-
+	return 20;
 }
