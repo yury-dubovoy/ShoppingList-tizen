@@ -1,6 +1,7 @@
 #include "ShoppingListMainForm.h"
 #include "AppResourceId.h"
 
+using namespace Db;
 using namespace Tizen::Base;
 using namespace Tizen::App;
 using namespace Tizen::Ui;
@@ -10,6 +11,7 @@ using namespace Tizen::Ui::Scenes;
 
 ShoppingListMainForm::ShoppingListMainForm(void)
 {
+	pDb = null;
 }
 
 ShoppingListMainForm::~ShoppingListMainForm(void)
@@ -40,6 +42,23 @@ ShoppingListMainForm::OnInitializing(void)
 	// Setup back event listener
 	SetFormBackEventListener(this);
 
+	pDb = new DbAccess();
+	r = pDb->Construct();
+	if (IsFailed(r))
+	{
+		AppLogDebug("ERROR: cannot construct DbAccess! [%s]", GetErrorMessage(r));
+		return r;
+	}
+
+	String strDbName = "lists.sqlite";
+
+	r = pDb->Connect(strDbName);
+	if (IsFailed(r))
+	{
+		AppLogDebug("ERROR: cannot connect %S! [%s]", strDbName.GetPointer(), GetErrorMessage(r));
+		return r;
+	}
+
 	return r;
 }
 
@@ -48,7 +67,15 @@ ShoppingListMainForm::OnTerminating(void)
 {
 	result r = E_SUCCESS;
 
-	// TODO: Add your termination code here
+	r = pDb->Close();
+	if (IsFailed(r))
+	{
+		AppLogDebug("ERROR: cannot close DbAccess! [%s]", GetErrorMessage(r));
+		return r;
+	}
+
+	delete pDb; pDb = null;
+
 	return r;
 }
 

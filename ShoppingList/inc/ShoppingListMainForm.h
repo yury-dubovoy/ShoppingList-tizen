@@ -2,6 +2,7 @@
 #define _SHOPPING_LIST_MAIN_FORM_H_
 
 #include "tizenx.h"
+#include "Db/DbAccess.h"
 
 class ShoppingListMainForm
 	: public Tizen::Ui::Controls::Form
@@ -15,6 +16,8 @@ public:
 	bool Initialize(void);
 
 private:
+	Db::DbAccess* pDb;
+
 	virtual result OnInitializing(void);
 	virtual result OnTerminating(void);
 	virtual void OnFormBackRequested(Tizen::Ui::Controls::Form& source);
