@@ -18,6 +18,7 @@ static const int ID_CNTX_BTN_DELETE = 200;
 ShoppingListTab1::ShoppingListTab1(void)
 {
 	pItemContext = null;
+	pListview1 = null;
 }
 
 ShoppingListTab1::~ShoppingListTab1(void)
@@ -81,7 +82,7 @@ ShoppingListTab1::OnInitializing(void)
 		}
 	}
 
-	ListView* pListview1 = static_cast<ListView*>(GetControl(IDC_LISTVIEW1));  
+	pListview1 = static_cast<ListView*>(GetControl(IDC_LISTVIEW1));
 	if(pListview1)
 	{
 		pListview1->AddListViewItemEventListener(*this);
@@ -124,8 +125,32 @@ ShoppingListTab1::OnSceneDeactivated(const Tizen::Ui::Scenes::SceneId& currentSc
 void
 ShoppingListTab1::OnListViewContextItemStateChanged(Tizen::Ui::Controls::ListView& listView, int index, int elementId, Tizen::Ui::Controls::ListContextItemStatus status)
 {
-	// TODO: Add your implementation codes here
+	if (status == LIST_CONTEXT_ITEM_STATUS_SELECTED && elementId == ID_CNTX_BTN_DELETE)
+	{
+		// удаляем из базы данных
+		RowList* pRow = dynamic_cast<RowList*>(theTableLists.GetRow(index));
+		if (pRow)
+		{
+			DbQuery theQuery;
+			theQuery.queryString = "DELETE FROM Lists WHERE id = ?";
+			theQuery.AddParamInt(pRow->pList->id.value);
+			ShoppingListMainForm::pDb->PerformRequest(theQuery);
+		}
 
+		if (pRow)
+		{
+			DbQuery theQuery;
+			theQuery.queryString = "DELETE FROM Purchases WHERE list_id = ?";
+			theQuery.AddParamInt(pRow->pList->id.value);
+			ShoppingListMainForm::pDb->PerformRequest(theQuery);
+		}
+
+		// удаляем из таблицы в памяти
+		theTableLists.RemoveRow(index);
+
+		// визуализируем изменения
+		pListview1->UpdateList();
+	}
 }
 
 void

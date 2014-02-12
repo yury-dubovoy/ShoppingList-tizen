@@ -21,8 +21,6 @@ public:
 
 public:
 
-	Db::DbDataSet 	theTableLists;
-
 	void
 	GetLists();
 
@@ -46,6 +44,10 @@ public:
 	virtual int 	GetItemCount(void);
 
 private:
+
+	Db::DbDataSet 							theTableLists;
+
+	Tizen::Ui::Controls::ListView* 			pListview1;
 
 	Tizen::Ui::Controls::ListContextItem* 	pItemContext;
 
