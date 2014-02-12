@@ -2,11 +2,17 @@
 #define _SHOPPING_LIST_TAB1_H_
 
 #include "tizenx.h"
+
+#include <Db/DbAccess.h>
+
+#include "RowList.h"
+
 class ShoppingListTab1
 	: public Tizen::Ui::Controls::Panel
-	, public Tizen::Ui::Scenes::ISceneEventListener,
- 	public Tizen::Ui::Controls::IListViewItemEventListener,
- 	public Tizen::Ui::Controls::IListViewItemProvider
+	, public Tizen::Ui::Scenes::ISceneEventListener
+ 	, public Tizen::Ui::Controls::IListViewItemEventListener
+ 	, public Tizen::Ui::Controls::IListViewItemProvider
+	, public Db::DbRowBuilderInterface
 {
 public:
 	ShoppingListTab1(void);
@@ -14,6 +20,15 @@ public:
 	bool Initialize(void);
 
 public:
+
+	Db::DbDataSet 	theTableLists;
+
+	void
+	GetLists();
+
+	virtual Db::DbRow*
+	BuildNewRowN(unsigned int tableId, unsigned int rowIndex, void* content = null) const;
+
 	virtual result OnInitializing(void);
 	virtual result OnTerminating(void);
 	virtual void OnSceneActivatedN(const Tizen::Ui::Scenes::SceneId& previousSceneId,

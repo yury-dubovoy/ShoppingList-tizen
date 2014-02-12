@@ -85,7 +85,7 @@ DbDataSet::AddNewRowToFront()
 
 
 unsigned int
-DbDataSet::GetId()
+DbDataSet::GetId() const
 {
 	return tableId;
 }

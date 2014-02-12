@@ -30,7 +30,7 @@ public:
 	AddNewRowToFront();
 
 	unsigned int
-	GetId();
+	GetId() const;
 
 	Db::DbRow*
 	GetRow(unsigned int rowIndex);

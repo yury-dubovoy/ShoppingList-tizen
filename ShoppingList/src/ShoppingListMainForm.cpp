@@ -1,13 +1,14 @@
 #include "ShoppingListMainForm.h"
 #include "AppResourceId.h"
 
-using namespace Content;
 using namespace Db;
 using namespace Tizen::Base;
 using namespace Tizen::App;
 using namespace Tizen::Ui;
 using namespace Tizen::Ui::Controls;
 using namespace Tizen::Ui::Scenes;
+
+Db::DbAccess* ShoppingListMainForm::pDb = null;
 
 
 ShoppingListMainForm::ShoppingListMainForm(void)
@@ -22,77 +23,7 @@ ShoppingListMainForm::~ShoppingListMainForm(void)
 bool
 ShoppingListMainForm::Initialize(void)
 {
-	result r = Construct(IDL_FORM);
-	TryReturn(r == E_SUCCESS, false, "Failed to construct form");
-
-	return true;
-}
-
-
-void
-ShoppingListMainForm::GetLists()
-{
-	DbDataSet theTable;
-	theDataSetIdGetLists = theTable.GetId();
-	theTable.SetRowBulder(this);
-
-	String strQueryString = "SELECT * FROM Lists";
-
-	DbQuery query;
-	query.queryString = strQueryString;
-	pDb->FillDataSet(query, theTable);
-
-	int count = theTable.GetRowCount();
-	int 	valueInt;
-	String*	pvalueText;
-	for (int i=0; i<count; i++)
-	{
-		DbRow* pRow = theTable.GetRow(i);
-		if (pRow)
-		{
-			pRow->GetInt(0, valueInt);
-			pRow->GetText(1, pvalueText);
-			AppLogDebug("%i %S", valueInt, pvalueText->GetPointer());
-		}
-		else
-		{
-			AppLogDebug("ERROR: pRow is null!");
-		}
-	}
-
-	return;
-}
-
-
-DbRow*
-ShoppingListMainForm::BuildNewRowN(unsigned int tableId, unsigned int rowIndex, void* content) const
-{
-	DbRow* pRow = null;
-
-	if (tableId == theDataSetIdGetLists)
-	{
-		pRow = new RowList(new Content::List());
-	}
-
-	return pRow;
-
-}
-
-
-result
-ShoppingListMainForm::OnInitializing(void)
-{
 	result r = E_SUCCESS;
-
-	// TODO: Add your initialization code here
-	Header* pHeader = GetHeader();
-	if (pHeader)
-	{
-		pHeader->AddActionEventListener(*this);
-	}
-
-	// Setup back event listener
-	SetFormBackEventListener(this);
 
 	pDb = new DbAccess();
 	r = pDb->Construct();
@@ -111,7 +42,28 @@ ShoppingListMainForm::OnInitializing(void)
 		return r;
 	}
 
-	GetLists();
+
+	r = Construct(IDL_FORM);
+	TryReturn(r == E_SUCCESS, false, "Failed to construct form");
+
+	return true;
+}
+
+
+result
+ShoppingListMainForm::OnInitializing(void)
+{
+	result r = E_SUCCESS;
+
+	// TODO: Add your initialization code here
+	Header* pHeader = GetHeader();
+	if (pHeader)
+	{
+		pHeader->AddActionEventListener(*this);
+	}
+
+	// Setup back event listener
+	SetFormBackEventListener(this);
 
 	return r;
 }

@@ -1,6 +1,10 @@
 #include "ShoppingListTab1.h"
 #include "AppResourceId.h"
 
+#include "ShoppingListMainForm.h"
+
+using namespace Content;
+using namespace Db;
 using namespace Tizen::Base;
 using namespace Tizen::Graphics;
 using namespace Tizen::Ui;
@@ -19,6 +23,21 @@ ShoppingListTab1::ShoppingListTab1(void)
 ShoppingListTab1::~ShoppingListTab1(void)
 {
 
+}
+
+
+void
+ShoppingListTab1::GetLists()
+{
+	theTableLists.RemoveAllRows();
+
+	String strQueryString = "SELECT * FROM Lists";
+
+	DbQuery query;
+	query.queryString = strQueryString;
+	ShoppingListMainForm::pDb->FillDataSet(query, theTableLists);
+
+	return;
 }
 
 bool
@@ -68,6 +87,11 @@ ShoppingListTab1::OnInitializing(void)
 		pListview1->AddListViewItemEventListener(*this);
 		pListview1->SetItemProvider(*this);
 	}
+
+	theTableLists.SetRowBulder(this);
+
+	GetLists();
+
 	return r;
 }
 
@@ -128,7 +152,15 @@ ShoppingListTab1::OnListViewItemSwept(Tizen::Ui::Controls::ListView& listView, i
 Tizen::Ui::Controls::ListItemBase *
 ShoppingListTab1::CreateItem(int index, int itemWidth)
 {
-	String strName = "Hello";
+
+	String*	pvalueText;
+	DbRow* pRow = theTableLists.GetRow(index);
+	if (pRow)
+	{
+		pRow->GetText(1, pvalueText);
+	}
+
+	String strName = *pvalueText;
 
 	int textWidth = GetWidth() - INDENT*2;
 
@@ -159,6 +191,22 @@ ShoppingListTab1::CreateItem(int index, int itemWidth)
 
 }
 
+
+DbRow*
+ShoppingListTab1::BuildNewRowN(unsigned int tableId, unsigned int rowIndex, void* content) const
+{
+	DbRow* pRow = null;
+
+	if (tableId == theTableLists.GetId())
+	{
+		pRow = new RowList(new Content::List());
+	}
+
+	return pRow;
+
+}
+
+
 bool
 ShoppingListTab1::DeleteItem(int index, Tizen::Ui::Controls::ListItemBase *pItem, int itemWidth)
 {
@@ -167,8 +215,9 @@ ShoppingListTab1::DeleteItem(int index, Tizen::Ui::Controls::ListItemBase *pItem
     return true;
 }
 
+
 int
 ShoppingListTab1::GetItemCount(void)
 {
-	return 20;
+	return theTableLists.GetRowCount();
 }
