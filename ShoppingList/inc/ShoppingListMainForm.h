@@ -2,13 +2,17 @@
 #define _SHOPPING_LIST_MAIN_FORM_H_
 
 #include "tizenx.h"
-#include "Db/DbAccess.h"
+
+#include <Db/DbAccess.h>
+
+#include "RowList.h"
 
 class ShoppingListMainForm
 	: public Tizen::Ui::Controls::Form
 	, public Tizen::Ui::IActionEventListener
-	, public Tizen::Ui::Controls::IFormBackEventListener,
- 	public Tizen::Ui::Scenes::ISceneEventListener
+	, public Tizen::Ui::Controls::IFormBackEventListener
+ 	, public Tizen::Ui::Scenes::ISceneEventListener
+	, public Db::DbRowBuilderInterface
 {
 public:
 	ShoppingListMainForm(void);
@@ -16,7 +20,16 @@ public:
 	bool Initialize(void);
 
 private:
-	Db::DbAccess* pDb;
+
+	Db::DbAccess*	pDb;
+
+	unsigned int	theDataSetIdGetLists;
+
+	void
+	GetLists();
+
+	virtual Db::DbRow*
+	BuildNewRowN(unsigned int tableId, unsigned int rowIndex, void* content = null) const;
 
 	virtual result OnInitializing(void);
 	virtual result OnTerminating(void);

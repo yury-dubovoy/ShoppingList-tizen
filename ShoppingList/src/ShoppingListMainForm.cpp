@@ -1,6 +1,7 @@
 #include "ShoppingListMainForm.h"
 #include "AppResourceId.h"
 
+using namespace Content;
 using namespace Db;
 using namespace Tizen::Base;
 using namespace Tizen::App;
@@ -26,6 +27,57 @@ ShoppingListMainForm::Initialize(void)
 
 	return true;
 }
+
+
+void
+ShoppingListMainForm::GetLists()
+{
+	DbDataSet theTable;
+	theDataSetIdGetLists = theTable.GetId();
+	theTable.SetRowBulder(this);
+
+	String strQueryString = "SELECT * FROM Lists";
+
+	DbQuery query;
+	query.queryString = strQueryString;
+	pDb->FillDataSet(query, theTable);
+
+	int count = theTable.GetRowCount();
+	int 	valueInt;
+	String*	pvalueText;
+	for (int i=0; i<count; i++)
+	{
+		DbRow* pRow = theTable.GetRow(i);
+		if (pRow)
+		{
+			pRow->GetInt(0, valueInt);
+			pRow->GetText(1, pvalueText);
+			AppLogDebug("%i %S", valueInt, pvalueText->GetPointer());
+		}
+		else
+		{
+			AppLogDebug("ERROR: pRow is null!");
+		}
+	}
+
+	return;
+}
+
+
+DbRow*
+ShoppingListMainForm::BuildNewRowN(unsigned int tableId, unsigned int rowIndex, void* content) const
+{
+	DbRow* pRow = null;
+
+	if (tableId == theDataSetIdGetLists)
+	{
+		pRow = new RowList(new Content::List());
+	}
+
+	return pRow;
+
+}
+
 
 result
 ShoppingListMainForm::OnInitializing(void)
@@ -58,6 +110,8 @@ ShoppingListMainForm::OnInitializing(void)
 		AppLogDebug("ERROR: cannot connect %S! [%s]", strDbName.GetPointer(), GetErrorMessage(r));
 		return r;
 	}
+
+	GetLists();
 
 	return r;
 }

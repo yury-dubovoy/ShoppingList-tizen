@@ -97,7 +97,7 @@ DbDataSet::GetRow(unsigned int rowIndex)
 	unsigned int rowCount = vRows.size();
 	if (rowIndex >= rowCount)
 	{
-		AppLogDebug("ERROR: invalid roeIndex! Index: [%i]", rowIndex);
+		AppLogDebug("ERROR: invalid rowIndex! Index: [%i]", rowIndex);
 		return null;
 	}
 	if (isIndexesReversed)
