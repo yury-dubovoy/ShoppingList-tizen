@@ -9,6 +9,7 @@ class ShoppingListMainForm
 	: public Tizen::Ui::Controls::Form
 	, public Tizen::Ui::IActionEventListener
 	, public Tizen::Ui::Controls::IFormBackEventListener
+	, public Tizen::Ui::Controls::IFormMenuEventListener
  	, public Tizen::Ui::Scenes::ISceneEventListener
 {
 public:
@@ -18,17 +19,24 @@ public:
 
 	static Db::DbAccess*	pDb;
 
+	Tizen::Ui::Controls::OptionMenu* 		pOptionMenu;
+
 private:
 
 	virtual result OnInitializing(void);
 	virtual result OnTerminating(void);
 	virtual void OnFormBackRequested(Tizen::Ui::Controls::Form& source);
+	virtual void OnFormMenuRequested(Tizen::Ui::Controls::Form& source);
 	virtual void OnActionPerformed(const Tizen::Ui::Control& source, int actionId);
 
 protected:
 	static const int ID_HEADER_ITEM1 = 101;
 	static const int ID_HEADER_ITEM2 = 102;
 	static const int ID_HEADER_ITEM3 = 103;
+
+	void
+	LaunchNewListDialog(){ AppLogDebug("BUBUBUB");}
+
 
 	virtual void OnSceneActivatedN(const Tizen::Ui::Scenes::SceneId& previousSceneId,
 								   const Tizen::Ui::Scenes::SceneId& currentSceneId, Tizen::Base::Collection::IList* pArgs);

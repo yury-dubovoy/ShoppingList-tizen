@@ -10,6 +10,8 @@ using namespace Tizen::Ui::Scenes;
 
 Db::DbAccess* ShoppingListMainForm::pDb = null;
 
+static const int ID_OPTION_ADD = 100;
+
 
 ShoppingListMainForm::ShoppingListMainForm(void)
 {
@@ -64,6 +66,15 @@ ShoppingListMainForm::OnInitializing(void)
 
 	// Setup back event listener
 	SetFormBackEventListener(this);
+	SetFormMenuEventListener(this);
+
+
+
+   pOptionMenu = new (std::nothrow) OptionMenu();
+   pOptionMenu->Construct();
+   pOptionMenu->AddItem(L"Add a new list", ID_OPTION_ADD);
+   pOptionMenu->AddActionEventListener(*this);
+   pOptionMenu->SetShowState(false);
 
 	return r;
 }
@@ -100,18 +111,30 @@ ShoppingListMainForm::OnActionPerformed(const Tizen::Ui::Control& source, int ac
 	case ID_HEADER_ITEM2:
 		pSceneManager->GoForward(SceneTransitionId(IDSCNT_2));
 		break;
+	case ID_OPTION_ADD:
+		LaunchNewListDialog();
+		break;
 	default:
 		break;
 	}
 }
 
 void
-ShoppingListMainForm::OnFormBackRequested(Tizen::Ui::Controls::Form& source)
+ShoppingListMainForm::OnFormBackRequested(Form& source)
 {
 	UiApp* pApp = UiApp::GetInstance();
 	AppAssert(pApp);
 	pApp->Terminate();
 }
+
+
+void
+ShoppingListMainForm::OnFormMenuRequested(Form& source)
+{
+	pOptionMenu->SetShowState(true);
+	pOptionMenu->Show();
+}
+
 
 void
 ShoppingListMainForm::OnSceneActivatedN(const Tizen::Ui::Scenes::SceneId& previousSceneId,

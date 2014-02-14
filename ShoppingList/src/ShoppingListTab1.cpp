@@ -93,6 +93,7 @@ ShoppingListTab1::OnInitializing(void)
 
 	GetLists();
 
+
 	return r;
 }
 
