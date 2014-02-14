@@ -10,17 +10,23 @@ using namespace Tizen::Ui::Scenes;
 
 Db::DbAccess* ShoppingListMainForm::pDb = null;
 
-static const int ID_OPTION_ADD = 100;
+static const int ID_HEADER_ITEM1 = 101;
+static const int ID_HEADER_ITEM2 = 102;
+
+static const int ID_OPTION_ADD = 201;
 
 
 ShoppingListMainForm::ShoppingListMainForm(void)
 {
 	pDb = null;
+	pOptionMenu = null;
 }
+
 
 ShoppingListMainForm::~ShoppingListMainForm(void)
 {
 }
+
 
 bool
 ShoppingListMainForm::Initialize(void)
@@ -52,55 +58,18 @@ ShoppingListMainForm::Initialize(void)
 }
 
 
-result
-ShoppingListMainForm::OnInitializing(void)
+void
+ShoppingListMainForm::LaunchNewListDialog()
 {
-	result r = E_SUCCESS;
-
-	// TODO: Add your initialization code here
-	Header* pHeader = GetHeader();
-	if (pHeader)
-	{
-		pHeader->AddActionEventListener(*this);
-	}
-
-	// Setup back event listener
-	SetFormBackEventListener(this);
-	SetFormMenuEventListener(this);
-
-
-
-   pOptionMenu = new (std::nothrow) OptionMenu();
-   pOptionMenu->Construct();
-   pOptionMenu->AddItem(L"Add a new list", ID_OPTION_ADD);
-   pOptionMenu->AddActionEventListener(*this);
-   pOptionMenu->SetShowState(false);
-
-	return r;
+	AppLogDebug("BUBUBUB");
 }
 
-result
-ShoppingListMainForm::OnTerminating(void)
-{
-	result r = E_SUCCESS;
-
-	r = pDb->Close();
-	if (IsFailed(r))
-	{
-		AppLogDebug("ERROR: cannot close DbAccess! [%s]", GetErrorMessage(r));
-		return r;
-	}
-
-	delete pDb; pDb = null;
-
-	return r;
-}
 
 void
 ShoppingListMainForm::OnActionPerformed(const Tizen::Ui::Control& source, int actionId)
 {
 	SceneManager* pSceneManager = SceneManager::GetInstance();
-	
+
 	AppAssert(pSceneManager);
 
 	switch(actionId)
@@ -119,6 +88,7 @@ ShoppingListMainForm::OnActionPerformed(const Tizen::Ui::Control& source, int ac
 	}
 }
 
+
 void
 ShoppingListMainForm::OnFormBackRequested(Form& source)
 {
@@ -136,18 +106,45 @@ ShoppingListMainForm::OnFormMenuRequested(Form& source)
 }
 
 
-void
-ShoppingListMainForm::OnSceneActivatedN(const Tizen::Ui::Scenes::SceneId& previousSceneId,
-								const Tizen::Ui::Scenes::SceneId& currentSceneId, Tizen::Base::Collection::IList* pArgs)
+result
+ShoppingListMainForm::OnInitializing(void)
 {
-	// TODO: Add your implementation codes here
+	result r = E_SUCCESS;
 
+	Header* pHeader = GetHeader();
+	if (pHeader)
+	{
+		pHeader->AddActionEventListener(*this);
+	}
+
+	SetFormBackEventListener(this);
+	SetFormMenuEventListener(this);
+
+   pOptionMenu = new (std::nothrow) OptionMenu();
+   pOptionMenu->Construct();
+   pOptionMenu->AddItem(L"Add a new list", ID_OPTION_ADD);
+   pOptionMenu->AddActionEventListener(*this);
+   pOptionMenu->SetShowState(false);
+
+	return r;
 }
 
-void
-ShoppingListMainForm::OnSceneDeactivated(const Tizen::Ui::Scenes::SceneId& currentSceneId,
-								const Tizen::Ui::Scenes::SceneId& nextSceneId)
-{
-	// TODO: Add your implementation codes here
 
+result
+ShoppingListMainForm::OnTerminating(void)
+{
+	result r = E_SUCCESS;
+
+	r = pDb->Close();
+	if (IsFailed(r))
+	{
+		AppLogDebug("ERROR: cannot close DbAccess! [%s]", GetErrorMessage(r));
+		return r;
+	}
+
+	delete pDb; pDb = null;
+
+	return r;
 }
+
+
